@@ -11,8 +11,13 @@ import {
   MdToolbarModule,
   MdButtonModule,
   MdCheckboxModule,
-  MdProgressSpinnerModule
+  MdProgressSpinnerModule,
+  MdSidenavModule,
+  MdCardModule
 } from '@angular/material';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { FileUploadModule } from 'ng2-file-upload';
+
 import { FilemanagerComponent } from './filemanager/filemanager.component';
 
 @NgModule({
@@ -21,13 +26,17 @@ import { FilemanagerComponent } from './filemanager/filemanager.component';
     HttpModule,
     BrowserAnimationsModule,
     TreeModule,
+    FileUploadModule,
 
     MdInputModule,
     MdIconModule,
     MdToolbarModule,
     MdButtonModule,
     MdCheckboxModule,
-    MdProgressSpinnerModule
+    MdProgressSpinnerModule,
+    MdSidenavModule,
+    MdCardModule,
+    FlexLayoutModule
   ],
   exports: [
     FilemanagerComponent

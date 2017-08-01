@@ -1,61 +1,30 @@
-<md-toolbar>Filemanager </md-toolbar>
+<md-toolbar class="main-header" color="primary">
+  <!-- <button (click)="sidemenu.toggle()" md-icon-button>
+      <md-icon>menu</md-icon>
+    </button>-->
+  FileManager
+</md-toolbar>
 
-<md-input-container>
-  <input mdInput placeholder="Search">
-</md-input-container>
+<div fxLayout="row" fxLayoutAlign="center start">
+  <div fxFlex.gt-sm="20" fxFlex.gt-xs="30" fxFlex="30">
+    <md-input-container>
+      <input mdInput placeholder="Search">
+    </md-input-container>
+    <tree-root *ngIf="nodes && nodes.length" id="tree" #tree [focused]="true" [nodes]="nodes" [options]="options" (onToggle)="onEvent($event)"
+      (onActiveChanged)="onEvent($event)"> </tree-root>
+  </div>
 
-<tree-root id="tree1" [focused]="true" [nodes]="nodes1" [options]="options1">
-  <ng-template #treeNodeTemplate let-node let-index="index">
-    <span [class]="node.data.className" [class.title]="true">{{ node.data.title }}</span>
-    <button md-raised-button>{{ node.data.title }}</button>
-  </ng-template>
-  <ng-template #loadingTemplate let-node>
-    <div [class]="node.data.className + 'Loading'">
-      <md-spinner></md-spinner>
-      <button md-raised-button> {{node.data.title}} </button>
-    </div>
-  </ng-template>
-</tree-root>
+  <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
+    <md-card>
 
-
-<tree-root id="tree3" [focused]="true" [nodes]="nodes2" [options]="options1">
-  <ng-template #treeNodeWrapperTemplate let-node let-index="index">
-    <md-checkbox><span>&rarr;</span></md-checkbox>
-    <button md-raised-button>{{ node.data.title }}</button>
-  </ng-template>
-</tree-root>
-
-
-<tree-root id="tree2" [focused]="true" [nodes]="nodes2">
-  <ng-template #treeNodeFullTemplate let-node let-index="index" let-templates="templates">
-    <div class="tree-node" style="height:50px">
-      <md-checkbox [checked]="node.isActive" (change)="node.toggleActivated(true)"></md-checkbox>
-      <tree-node-expander [node]="node"></tree-node-expander>
-      <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused"
-        (click)="node.toggleActivated(true)">
-        <button md-raised-button [class.title]="true">
-          <md-icon>folder</md-icon>{{ node.data.title }}
-          </button>
-      </div>
-      <tree-node-children [node]="node" [templates]="templates"></tree-node-children>
-    </div>
-  </ng-template>
-
-</tree-root>
-
-<tree-root id="tree2" [focused]="true" [nodes]="nodesReal">
-  <ng-template #treeNodeFullTemplate let-node let-index="index" let-templates="templates">
-    <div class="tree-node" style="height:50px">
-      <md-checkbox [checked]="node.isActive" (change)="node.toggleActivated(true)"></md-checkbox>
-      <tree-node-expander [node]="node"></tree-node-expander>
-      <div class="node-content-wrapper" [class.node-content-wrapper-active]="node.isActive" [class.node-content-wrapper-focused]="node.isFocused"
-        (click)="node.toggleActivated(true)">
-        <button md-raised-button [class.title]="true">
-          <md-icon>folder</md-icon>{{ node.data.title }}
-          </button>
-      </div>
-      <tree-node-children [node]="node" [templates]="templates"></tree-node-children>
-    </div>
-  </ng-template>
-
-</tree-root>
+      <md-card-title>Active Directory</md-card-title>
+      <md-card-subtitle>{{this.activeDirectory}}</md-card-subtitle>
+      <md-card-content>
+        <input type="file" ng2FileSelect [uploader]="uploader" />
+        <button type="button" class="primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <md-icon>add</md-icon>upload
+                </button>
+      </md-card-content>
+    </md-card>
+  </div>
+</div>

@@ -4,9 +4,14 @@ var bodyParser = require('body-parser');
 var path = require('path');
 
 var fs = require('fs');
-
+var dirTree = require('directory-tree');
+var multer = require('multer');
 var baseDir = '/data/'
 var basePath = __dirname + baseDir;
+
+var upload = multer({ dest: basePath });
+const tree = dirTree(basePath);
+
 
 var isDirectory = function (path) {
   try {
@@ -30,6 +35,37 @@ var isFile = function (path) {
 
 app.use(bodyParser.json());
 app.use(express.static(basePath));
+
+/*app.use(() => multer({
+  dest: basePath,
+  rename: function (fieldname, filename) {
+    return filename + Date.now();
+  },
+  onFileUploadStart: function (file) {
+    console.log(file.originalname + ' is starting ...');
+  },
+  onFileUploadComplete: function (file) {
+    console.log(file.fieldname + ' uploaded to  ' + file.path);
+  }
+}));*/
+
+
+app.post('/upload', function (req, res) {
+  upload(req, res, function (err) {
+    if (err) {
+      return res.end(err.toString());
+    }
+
+    res.end('File is uploaded');
+  });
+});
+
+
+app.get('/trees', function (req, res) {
+
+  res.json(tree);
+
+});
 
 app.get('/folders', function (req, res) {
   console.log('hi getting foders');

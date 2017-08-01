@@ -14,7 +14,7 @@ import { FileManagerModule } from './filemanager/filemanager.module';
     FileManagerModule
   ],
   providers: [
-    { provide: 'fileManagerUrls', useValue: { foldersUrl: '/folders', filesUrl: '/files' } }
+    { provide: 'fileManagerUrls', useValue: { foldersUrl: '/folders', filesUrl: '/files', treeUrl: '/trees', fileUploadUrl: '/upload' } }
   ],
   bootstrap: [AppComponent]
 })
