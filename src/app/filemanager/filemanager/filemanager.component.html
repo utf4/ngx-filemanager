@@ -1,7 +1,4 @@
 <md-toolbar class="main-header" color="primary">
-  <!-- <button (click)="sidemenu.toggle()" md-icon-button>
-      <md-icon>menu</md-icon>
-    </button>-->
   FileManager
 </md-toolbar>
 
@@ -10,21 +7,29 @@
     <md-input-container>
       <input mdInput placeholder="Search">
     </md-input-container>
-    <tree-root *ngIf="nodes && nodes.length" id="tree" #tree [focused]="true" [nodes]="nodes" [options]="options" (onToggle)="onEvent($event)"
-      (onActiveChanged)="onEvent($event)"> </tree-root>
   </div>
 
   <div fxFlex.gt-sm="70" fxFlex.gt-xs="70" fxFlex="70">
     <md-card>
 
       <md-card-title>Active Directory</md-card-title>
-      <md-card-subtitle>{{this.activeDirectory}}</md-card-subtitle>
       <md-card-content>
         <input type="file" ng2FileSelect [uploader]="uploader" />
-        <button type="button" class="primary" (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
-                    <md-icon>add</md-icon>upload
+        <button type="button" md-raised-button class="primary" md-raised (click)="uploader.uploadAll()" [disabled]="!uploader.getNotUploadedItems().length">
+                    <md-icon>add</md-icon>
                 </button>
       </md-card-content>
     </md-card>
+    <md-spinner *ngIf="loading"></md-spinner>
+    <div *ngIf="!loading">
+      <h3>Files ({{files.length}})</h3>
+      <md-list dense>
+        <md-list-item *ngFor="let file of files" style="height:30px">
+          <md-icon md-list-icon>insert_drive_file</md-icon>
+          <h4 md-line>{{file.title}}</h4>
+          <p md-line> {{file.updatedAt | date}} </p>
+        </md-list-item>
+      </md-list>
+    </div>
   </div>
 </div>

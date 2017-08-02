@@ -23,11 +23,7 @@ export class FileManagerConfiguration {
         return this.fileUploadUrl;
     }
 
-    getFolders() {
-        return this._http.get(this.folderUrl);
-    }
-
-    getBaseTree() {
-        return this._http.get(this.baseUrl);
+    getFiles() {
+        return this._http.get('api/v1/files?min=0');
     }
 }

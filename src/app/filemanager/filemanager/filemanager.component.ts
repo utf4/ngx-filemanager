@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { TREE_ACTIONS, KEYS, IActionMapping, ITreeOptions, TreeComponent } from 'angular-tree-component';
 import { FileManagerConfiguration } from './filemanager.service';
 import { FileUploader } from 'ng2-file-upload';
 import { environment } from '../../../environments/environment';
@@ -11,68 +10,39 @@ import { environment } from '../../../environments/environment';
 })
 export class FilemanagerComponent implements OnInit {
 
-  @ViewChild(TreeComponent)
-  private tree: TreeComponent;
   fileUploadUrl = '';
+  files: Array<any> = [];
   public uploader: FileUploader;
-  public hasBaseDropZoneOver: boolean = false;
+  public loading: boolean = false;
 
 
-  constructor(private fileManagerService: FileManagerConfiguration, @Inject('fileManagerUrls') urls) {
-    this.uploader = new FileUploader({ url: environment.apiUrl + urls.fileUploadUrl });
+  constructor(
+    private fileManagerService: FileManagerConfiguration,
+    @Inject('fileManagerUrls') urls
+  ) {
+    this.uploader = new FileUploader({
+      url: urls.fileUploadUrl
+    });
+    this.uploader.onAfterAddingFile = (file) => {
+      file.withCredentials = false;
+    };
+    this.uploader.onBeforeUploadItem = () => {
+      this.loading = true;
+    }
+    this.uploader.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.getFiles();
+    };
   }
+
   ngOnInit() {
-    this.fileManagerService.getBaseTree().subscribe(data => {
-      let temp = data.json();
-      this.nodes = temp.children;
-      this.activeDirectory = temp.path;
+    this.getFiles();
+  }
+  getFiles() {
+    this.loading = true;
+    this.fileManagerService.getFiles().subscribe(files => {
+      this.loading = false;
+      this.files = files.json().files;
     })
   }
-
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  nodes: Array<any>;
-  activeDirectory: string;
-
-  options: ITreeOptions = {
-    displayField: 'name',
-    nodeClass: (node) => `${node.data.name}Class`,
-    actionMapping: {
-      mouse: {
-        click: (tree, node, $event) => {
-          if (node.data.type !== 'directory') {
-            this.activeDirectory = node.data.path.substring(0, node.data.path.lastIndexOf('/'));
-          } else {
-            this.activeDirectory = node.data.path;
-          }
-        }
-      }
-    },
-    nodeHeight: 23,
-    allowDrag: (node) => {
-      return true;
-    },
-    allowDrop: (node) => {
-      return true;
-    },
-    useVirtualScroll: true,
-    animateExpand: true,
-    animateSpeed: 30,
-    animateAcceleration: 1.2
-  };
-
-  addNode() {
-    this.nodes.push({ name: 'another node' });
-    this.tree.treeModel.update();
-  }
-
-  onEvent(ev) {
-    console.log(ev)
-  }
-
-
-
 
 }

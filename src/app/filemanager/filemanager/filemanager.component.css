@@ -1,4 +1,7 @@
 .my-drop-zone { border: dotted 3px lightgray; }
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
 
 div.tree div.tree-children::before,
 div.tree::before {

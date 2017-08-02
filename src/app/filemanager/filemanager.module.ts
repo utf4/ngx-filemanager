@@ -13,7 +13,9 @@ import {
   MdCheckboxModule,
   MdProgressSpinnerModule,
   MdSidenavModule,
-  MdCardModule
+  MdCardModule,
+  MdListModule,
+  MdProgressBarModule
 } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FileUploadModule } from 'ng2-file-upload';
@@ -36,6 +38,7 @@ import { FilemanagerComponent } from './filemanager/filemanager.component';
     MdProgressSpinnerModule,
     MdSidenavModule,
     MdCardModule,
+    MdListModule,
     FlexLayoutModule
   ],
   exports: [
